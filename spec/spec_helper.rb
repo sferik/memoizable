@@ -7,8 +7,9 @@ begin
     add_filter '/config'
     add_filter '/spec'
     add_filter '/vendor'
+    enable_coverage :branch
     command_name 'spec'
-    minimum_coverage 100
+    minimum_coverage line: 100, branch: 100
   end
 rescue LoadError
   $stderr.puts 'Warning: simplecov is not installed. Coverage analysis will be skipped.'
