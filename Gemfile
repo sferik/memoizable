@@ -15,6 +15,7 @@ group :test do
   gem "simplecov", ">= 0.22"
   gem "standard", ">= 1.46"
   gem "standard-performance", ">= 1.7"
+  gem "steep", ">= 1.9", platforms: :ruby
   gem "yard", ">= 0.9.38"
   gem "yardstick", ">= 0.9.9"
 end

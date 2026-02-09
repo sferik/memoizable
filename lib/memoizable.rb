@@ -13,7 +13,7 @@ module Memoizable
   include Memoizable::InstanceMethods
 
   # Default freezer
-  Freezer = lambda(&:freeze).freeze
+  Freezer = ->(value) { value.freeze }.freeze # rubocop:disable Style/SymbolProc
 
   # Hook called when module is included
   #
