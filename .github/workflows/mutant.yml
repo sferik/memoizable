@@ -1,0 +1,15 @@
+name: Mutant
+on: [push, pull_request]
+jobs:
+  mutant:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+      - name: Run mutant
+        run: bundle exec rake mutant
