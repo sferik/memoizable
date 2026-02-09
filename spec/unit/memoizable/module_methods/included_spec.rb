@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 describe Memoizable::ModuleMethods, "#included" do
-  subject { descendant.instance_exec(object) { |mod| include mod } }
+  subject(:include_module) { descendant.instance_exec(object) { |mod| include mod } }
 
   let(:object) { Module.new.extend(described_class) }
   let(:descendant) { Class.new }
@@ -15,7 +17,7 @@ describe Memoizable::ModuleMethods, "#included" do
   it_behaves_like "it calls super", :included
 
   it "includes Memoizable into the descendant" do
-    subject
+    include_module
     expect(descendant.included_modules).to include(Memoizable)
   end
 end

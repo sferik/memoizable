@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Memoizable
   # Storage for memoized methods
   class Memory
@@ -28,7 +30,7 @@ module Memoizable
     # @api public
     def [](name)
       fetch(name) do
-        fail NameError, "No method #{name} is memoized"
+        raise NameError, "No method #{name} is memoized"
       end
     end
 
@@ -47,11 +49,9 @@ module Memoizable
     # @api public
     def store(name, value)
       @monitor.synchronize do
-        if @memory.key?(name)
-          fail ArgumentError, "The method #{name} is already memoized"
-        else
-          @memory[name] = value
-        end
+        raise ArgumentError, "The method #{name} is already memoized" if @memory.key?(name)
+
+        @memory[name] = value
       end
     end
 
@@ -118,7 +118,8 @@ module Memoizable
     #
     # @example
     #   memory = Memoizable::Memory.new(foo: 1)
-    #   Marshal.dump(memory)  # => "\x04\bU:\x17Memoizable::Memory{\x06:\bfooi\x06"
+    #   Marshal.dump(memory)
+    #   # => "\x04\bU:\x17Memoizable::Memory{\x06:\bfooi\x06"
     #
     # @return [Hash]
     #   A hash used to populate the internal memory
@@ -132,7 +133,8 @@ module Memoizable
     #
     # @example
     #   memory = Memoizable::Memory.new(foo: 1)
-    #   Marshal.load(Marshal.dump(memory))  # => #<Memoizable::Memory:0x007f9c2a8b6b20 @memory={:foo=>1}>
+    #   Marshal.load(Marshal.dump(memory))
+    #   # => #<Memoizable::Memory:0x007f9c2a8b6b20 @memory={:foo=>1}>
     #
     # @param [Hash] hash
     #   A hash used to populate the internal memory
@@ -143,5 +145,5 @@ module Memoizable
     def marshal_load(hash)
       initialize(hash)
     end
-  end # Memory
-end # Memoizable
+  end
+end

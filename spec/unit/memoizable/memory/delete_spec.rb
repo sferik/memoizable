@@ -1,24 +1,24 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 describe Memoizable::Memory, "#delete" do
-  subject { described_class.new(foo: 1) }
+  subject(:memory) { described_class.new(foo: 1) }
 
-  shared_context "#delete behaviour" do
+  shared_examples "with #delete behaviour" do
     it "returns value at key" do
-      expect(subject.delete(:foo)).to be(1)
+      expect(memory.delete(:foo)).to be(1)
     end
 
     it "removes key" do
-      expect(subject[:foo]).to be(1)
+      memory.delete(:foo)
 
-      subject.delete(:foo)
-
-      expect { subject[:foo] }.to raise_error(NameError)
+      expect { memory[:foo] }.to raise_error(NameError)
     end
   end
 
   context "without Monitor mocked" do
-    include_examples "#delete behaviour"
+    it_behaves_like "with #delete behaviour"
   end
 
   context "with Monitor mocked" do
@@ -29,10 +29,10 @@ describe Memoizable::Memory, "#delete" do
       allow(monitor).to receive(:synchronize).and_yield
     end
 
-    include_examples "#delete behaviour"
+    it_behaves_like "with #delete behaviour"
 
     it "synchronizes concurrent updates" do
-      subject.delete(:foo)
+      memory.delete(:foo)
 
       expect(monitor).to have_received(:synchronize).once
     end

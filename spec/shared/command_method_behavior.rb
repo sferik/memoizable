@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 shared_examples_for "a command method" do
   it "returns self" do
-    should equal(object)
+    expect(subject).to equal(object)
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_examples "it calls super" do |method|
   around do |example|
     # Restore original method after each example

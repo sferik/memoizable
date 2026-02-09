@@ -1,18 +1,20 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 describe Memoizable::Memory, "#marshal_load" do
-  subject { object.marshal_load(hash) }
+  subject(:load_hash) { object.marshal_load(hash) }
 
   let(:object) { described_class.allocate }
   let(:hash) { {test: nil} }
 
   it "loads the hash into memory" do
-    subject
-    expect(object.fetch(:test)).to be(nil)
+    load_hash
+    expect(object.fetch(:test)).to be_nil
   end
 
   it "freezes the object" do
-    subject
+    load_hash
     expect(object).to be_frozen
   end
 end

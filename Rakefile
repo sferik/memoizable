@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "bundler"
 require "rspec/core/rake_task"
 require "rubocop/rake_task"
@@ -18,6 +20,10 @@ Yardstick::Rake::Verify.new(:verify_measurements) do |verify|
   verify.threshold = 100
 end
 
-task lint: [:rubocop, :standard]
+desc "Run RuboCop and Standard Ruby"
+task lint: %i[rubocop standard]
+
+desc "Run RSpec"
 task test: :spec
+
 task default: :spec

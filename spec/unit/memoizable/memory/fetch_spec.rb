@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 describe Memoizable::Memory, "#fetch" do
-  subject { object.fetch(name) { default } }
+  subject(:fetch_result) { object.fetch(name) { default } }
 
   let(:object) { described_class.new(cache) }
   let(:cache) { {} }
@@ -24,39 +26,39 @@ describe Memoizable::Memory, "#fetch" do
       end
 
       it "returns the expected value" do
-        expect(subject).to be(value)
+        expect(fetch_result).to be(value)
       end
 
       it "memoizes the value" do
-        subject
+        fetch_result
         expect(object[name]).to be(value)
       end
 
       it "does not overwrite the other key" do
-        subject
+        fetch_result
         expect(object[:other]).to be(other)
       end
     end
 
     context "when the memory is not set" do
       it "returns the default value" do
-        expect(subject).to be(default)
+        expect(fetch_result).to be(default)
       end
 
       it "memoizes the default value" do
-        subject
+        fetch_result
         expect(object[name]).to be(default)
       end
 
       it "does not overwrite the other key" do
-        subject
+        fetch_result
         expect(object[:other]).to be(other)
       end
     end
   end
 
   context "when the events are mocked" do
-    include_context "mocked events"
+    include_context "with mocked events"
 
     let(:cache) do
       instance_double(Hash).tap do |cache|
@@ -75,8 +77,6 @@ describe Memoizable::Memory, "#fetch" do
     end
 
     context "when the memory is set on first #fetch" do
-      include_examples "executes all events"
-
       let(:events) do
         Enumerator.new do |events|
           # First call to cache#fetch returns value
@@ -86,19 +86,19 @@ describe Memoizable::Memory, "#fetch" do
         end
       end
 
+      it_behaves_like "executes all events"
+
       it "returns the expected value" do
-        expect(subject).to be(value)
+        expect(fetch_result).to be(value)
       end
 
       it "executes all events" do
-        subject
+        fetch_result
         expect { events.peek }.to raise_error(StopIteration)
       end
     end
 
     context "when the memory is set on second #fetch" do
-      include_examples "executes all events"
-
       let(:events) do
         Enumerator.new do |events|
           # First call to cache#fetch yields
@@ -118,14 +118,14 @@ describe Memoizable::Memory, "#fetch" do
         end
       end
 
+      it_behaves_like "executes all events"
+
       it "returns the expected value" do
-        expect(subject).to be(value)
+        expect(fetch_result).to be(value)
       end
     end
 
     context "when the memory is not set on second #fetch" do
-      include_examples "executes all events"
-
       let(:events) do
         Enumerator.new do |events|
           # First call to cache#fetch yields
@@ -150,8 +150,10 @@ describe Memoizable::Memory, "#fetch" do
         end
       end
 
+      it_behaves_like "executes all events"
+
       it "returns the default value" do
-        expect(subject).to be(default)
+        expect(fetch_result).to be(default)
       end
     end
   end

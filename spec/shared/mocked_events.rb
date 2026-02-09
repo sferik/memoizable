@@ -1,4 +1,6 @@
-shared_context "mocked events" do
+# frozen_string_literal: true
+
+shared_context "with mocked events" do
   def register_events(object, method_names)
     method_names.each do |method_name|
       allow(object).to receive(method_name) do |*args, &block|
@@ -8,7 +10,7 @@ shared_context "mocked events" do
   end
 
   def expected_event(object, method_name, *expected_args, &handler)
-    ->(*args, &block) do
+    lambda do |*args, &block|
       expect(args).to eql([object, method_name, *expected_args])
       handler.call(&block)
     end

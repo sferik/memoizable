@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 describe Memoizable::Memory do
-  let(:object) { Memoizable::Memory.new({}) }
+  let(:object) { described_class.new({}) }
 
   it "is frozen" do
     expect(object).to be_frozen
@@ -13,7 +15,7 @@ describe Memoizable::Memory do
     expect(object.fetch(:test) { :test }).to be(:test)
   end
 
-  context "serialization" do
+  context "when serialized" do
     let(:deserialized) { Marshal.load(Marshal.dump(object)) }
 
     it "is serializable with Marshal" do
@@ -21,7 +23,7 @@ describe Memoizable::Memory do
     end
 
     it "is deserializable with Marshal" do
-      expect(deserialized).to be_an_instance_of(Memoizable::Memory)
+      expect(deserialized).to be_an_instance_of(described_class)
     end
 
     it "mantains the same class of cache when deserialized" do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Memoizable
   # Methods mixed in to memoizable instances
   module InstanceMethods
@@ -10,7 +12,7 @@ module Memoizable
     #
     # @api public
     def freeze
-      memoized_method_cache  # initialize method cache
+      memoized_method_cache # initialize method cache
       super
     end
 
@@ -38,7 +40,7 @@ module Memoizable
     #
     # @api private
     def memoized_method_cache
-      @_memoized_method_cache ||= Memory.new({})
+      @memoized_method_cache ||= Memory.new({})
     end
-  end # InstanceMethods
-end # Memoizable
+  end
+end

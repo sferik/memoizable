@@ -1,4 +1,6 @@
-require File.expand_path("../lib/memoizable/version", __FILE__)
+# frozen_string_literal: true
+
+require File.expand_path("lib/memoizable/version", __dir__)
 
 Gem::Specification.new do |gem|
   gem.name = "memoizable"
@@ -15,4 +17,5 @@ Gem::Specification.new do |gem|
   gem.extra_rdoc_files = Dir["**/*.md"]
 
   gem.required_ruby_version = ">= 3.1"
+  gem.metadata["rubygems_mfa_required"] = "true"
 end

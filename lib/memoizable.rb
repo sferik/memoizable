@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "monitor"
 
 require "memoizable/instance_methods"
@@ -11,7 +13,7 @@ module Memoizable
   include InstanceMethods
 
   # Default freezer
-  Freezer = lambda { |object| object.freeze }.freeze
+  Freezer = lambda(&:freeze).freeze
 
   # Hook called when module is included
   #
@@ -26,4 +28,4 @@ module Memoizable
     descendant.extend(ModuleMethods)
   end
   private_class_method :included
-end # Memoizable
+end
