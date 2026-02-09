@@ -29,19 +29,15 @@ Layout/ArgumentAlignment:
 Layout/SpaceInsideHashLiteralBraces:
   Enabled: false
 
-# Disabled because Memory#fetch only accepts a block, not a default argument
-Style/RedundantFetchBlock:
-  Enabled: false
-
 # Disabled because the string references are intentional (the classes don't exist)
 RSpec/VerifiedDoubleReference:
   Enabled: false
-
-# Allow more memoized helpers in complex test setups
-RSpec/MultipleMemoizedHelpers:
-  Max: 10
 
 # Only disabled for the serializable spec where Marshal.load is legitimately tested
 Security/MarshalLoad:
   Exclude:
     - "spec/integration/serializable_spec.rb"
+
+# Allow more memoized helpers in complex test setups
+RSpec/MultipleMemoizedHelpers:
+  Max: 10

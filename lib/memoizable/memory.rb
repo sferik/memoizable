@@ -62,8 +62,11 @@ module Memoizable
     #   memory.fetch(:foo) { 2 }  # => 1
     #   memory.fetch(:bar) { 2 }  # => 2
     #   memory[:bar]              # => 2
+    #   memory.fetch(:baz, 3)     # => 3
     #
     # @param [Symbol] name
+    # @param [Object] default
+    #   optional default value to return if the key is not found
     #
     # @yieldreturn [Object]
     #   the value to memoize
@@ -71,15 +74,40 @@ module Memoizable
     # @return [Object]
     #
     # @api public
-    def fetch(name)
+    def fetch(name, default = (no_default = true), &block)
       @memory.fetch(name) do       # check for the key
         @monitor.synchronize do    # acquire a lock if the key is not found
           @memory.fetch(name) do   # recheck under lock
-            @memory[name] = yield  # set the value
+            @memory[name] = resolve_fetch_value(name, no_default, default, &block)
           end
         end
       end
     end
+
+    private
+
+    # Resolve the value for a fetch operation
+    #
+    # @param [Symbol] name
+    # @param [Boolean] no_default
+    # @param [Object] default
+    #
+    # @yieldreturn [Object]
+    #
+    # @return [Object]
+    #
+    # @api private
+    def resolve_fetch_value(name, no_default, default)
+      if block_given?
+        yield
+      elsif no_default
+        raise KeyError, "key not found: #{name.inspect}"
+      else
+        default
+      end
+    end
+
+    public
 
     # Remove a specific value from memory
     #
