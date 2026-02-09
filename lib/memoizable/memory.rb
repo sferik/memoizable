@@ -1,8 +1,6 @@
 module Memoizable
-
   # Storage for memoized methods
   class Memory
-
     # Initialize the memory storage for memoized methods
     #
     # @param [Hash] memory
@@ -11,7 +9,7 @@ module Memoizable
     #
     # @api private
     def initialize(memory)
-      @memory  = memory
+      @memory = memory
       @monitor = Monitor.new
       freeze
     end
@@ -145,6 +143,5 @@ module Memoizable
     def marshal_load(hash)
       initialize(hash)
     end
-
   end # Memory
 end # Memoizable

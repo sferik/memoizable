@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe Memoizable::ModuleMethods, '#unmemoized_instance_method' do
+describe Memoizable::ModuleMethods, "#unmemoized_instance_method" do
   subject { object.unmemoized_instance_method(name) }
 
   let(:object) do
@@ -19,22 +19,22 @@ describe Memoizable::ModuleMethods, '#unmemoized_instance_method' do
     end
   end
 
-  context 'when the method was memoized' do
+  context "when the method was memoized" do
     let(:name) { :foo }
 
     it { should be_instance_of(UnboundMethod) }
 
-    it 'returns the original method' do
+    it "returns the original method" do
       # original method is not memoized
       method = subject.bind(object.new)
       expect(method.call).to_not be(method.call)
     end
   end
 
-  context 'when the method was not memoized' do
+  context "when the method was not memoized" do
     let(:name) { :bar }
 
-    it 'raises an exception' do
+    it "raises an exception" do
       expect { subject }.to raise_error(NoMethodError)
     end
   end

@@ -1,11 +1,8 @@
 module Memoizable
-
   # Build the memoized method
   class MethodBuilder
-
     # Raised when the method arity is invalid
     class InvalidArityError < ArgumentError
-
       # Initialize an invalid arity exception
       #
       # @param [Module] descendant
@@ -16,12 +13,10 @@ module Memoizable
       def initialize(descendant, method, arity)
         super("Cannot memoize #{descendant}##{method}, its arity is #{arity}")
       end
-
     end # InvalidArityError
 
     # Raised when a block is passed to a memoized method
     class BlockNotAllowedError < ArgumentError
-
       # Initialize a block not allowed exception
       #
       # @param [Module] descendant
@@ -31,7 +26,6 @@ module Memoizable
       def initialize(descendant, method)
         super("Cannot pass a block to #{descendant}##{method}, it is memoized")
       end
-
     end # BlockNotAllowedError
 
     # The original method before memoization
@@ -54,11 +48,11 @@ module Memoizable
     #
     # @api private
     def initialize(descendant, method_name, freezer)
-      @descendant          = descendant
-      @method_name         = method_name
-      @freezer             = freezer
+      @descendant = descendant
+      @method_name = method_name
+      @freezer = freezer
       @original_visibility = visibility
-      @original_method     = descendant.instance_method(@method_name)
+      @original_method = descendant.instance_method(@method_name)
       assert_arity(original_method.arity)
     end
 
@@ -77,7 +71,7 @@ module Memoizable
       self
     end
 
-  private
+    private
 
     # Assert the method arity is zero
     #
@@ -115,7 +109,7 @@ module Memoizable
         define_method(name) do |&block|
           fail BlockNotAllowedError.new(self.class, name) if block
           memoized_method_cache.fetch(name) do
-            freezer.call(method.bind(self).call)
+            freezer.call(method.bind_call(self))
           end
         end
       end
@@ -136,11 +130,10 @@ module Memoizable
     #
     # @api private
     def visibility
-      if    @descendant.private_method_defined?(@method_name)   then :private
+      if @descendant.private_method_defined?(@method_name) then :private
       elsif @descendant.protected_method_defined?(@method_name) then :protected
-      else                                                           :public
+      else :public
       end
     end
-
   end # MethodBuilder
 end # Memoizable

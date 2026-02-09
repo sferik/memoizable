@@ -9,7 +9,7 @@ module Fixture
     end
 
     def test
-      'test'
+      "test"
     end
 
     def zero_arity
@@ -23,17 +23,16 @@ module Fixture
       caller
     end
 
-  protected
+    protected
 
     def protected_method
       caller
     end
 
-  private
+    private
 
     def private_method
       caller
     end
-
   end # class Object
 end # module Fixture

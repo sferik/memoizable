@@ -1,38 +1,38 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe Memoizable::Memory, '#store' do
+describe Memoizable::Memory, "#store" do
   subject { object.store(name, value) }
 
   let(:object) { described_class.new(cache) }
-  let(:cache)  { {}                         }
-  let(:name)   { :test                      }
-  let(:value)  { instance_double('Value')   }
+  let(:cache) { {} }
+  let(:name) { :test }
+  let(:value) { instance_double("Value") }
 
-  context 'when the events are not mocked' do
-    context 'when the memory is set' do
+  context "when the events are not mocked" do
+    context "when the memory is set" do
       before do
         object.store(name, value)
       end
 
-      it 'raises an exception' do
-        expect { subject }.to raise_error(ArgumentError, 'The method test is already memoized')
+      it "raises an exception" do
+        expect { subject }.to raise_error(ArgumentError, "The method test is already memoized")
       end
     end
 
-    context 'when the memory is not set' do
-      it 'set the value' do
+    context "when the memory is not set" do
+      it "set the value" do
         subject
         expect(object[name]).to be(value)
       end
 
-      it 'returns the value' do
+      it "returns the value" do
         expect(subject).to be(value)
       end
     end
   end
 
-  context 'when the events are mocked' do
-    include_context 'mocked events'
+  context "when the events are mocked" do
+    include_context "mocked events"
 
     let(:cache) do
       instance_double(Hash).tap do |cache|
@@ -50,8 +50,8 @@ describe Memoizable::Memory, '#store' do
       allow(Monitor).to receive(:new).and_return(monitor)
     end
 
-    context 'when the memory is set' do
-      include_examples 'executes all events'
+    context "when the memory is set" do
+      include_examples "executes all events"
 
       let(:events) do
         Enumerator.new do |events|
@@ -67,13 +67,13 @@ describe Memoizable::Memory, '#store' do
         end
       end
 
-      it 'raises an exception' do
-        expect { subject }.to raise_error(ArgumentError, 'The method test is already memoized')
+      it "raises an exception" do
+        expect { subject }.to raise_error(ArgumentError, "The method test is already memoized")
       end
     end
 
-    context 'when the memory is not set' do
-      include_examples 'executes all events'
+    context "when the memory is not set" do
+      include_examples "executes all events"
 
       let(:events) do
         Enumerator.new do |events|
@@ -95,12 +95,12 @@ describe Memoizable::Memory, '#store' do
         end
       end
 
-      it 'set the value' do
+      it "set the value" do
         subject
         expect(object[name]).to be(value)
       end
 
-      it 'returns the value' do
+      it "returns the value" do
         expect(subject).to be(value)
       end
     end

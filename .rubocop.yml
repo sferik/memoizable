@@ -24,10 +24,10 @@ Style/CollectionMethods:
     find_all: select
 
 Style/StringLiterals:
-  EnforcedStyle: single_quotes
+  EnforcedStyle: double_quotes
 
 Style/StringLiteralsInInterpolation:
-  EnforcedStyle: single_quotes
+  EnforcedStyle: double_quotes
 
 Style/TrailingCommaInArguments:
   EnforcedStyleForMultiline: consistent_comma
