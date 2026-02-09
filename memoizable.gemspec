@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
   gem.license = "MIT"
 
   gem.require_paths = %w[lib]
-  gem.files = %w[CONTRIBUTING.md LICENSE.md README.md memoizable.gemspec] + Dir["lib/**/*.rb"]
+  gem.files = %w[CHANGELOG.md CONTRIBUTING.md LICENSE.md README.md memoizable.gemspec] + Dir["lib/**/*.rb"]
   gem.extra_rdoc_files = Dir["**/*.md"]
 
   gem.required_ruby_version = ">= 3.1"
