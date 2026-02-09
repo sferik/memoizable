@@ -3,6 +3,9 @@
 module Memoizable
   VERSION: String
 
+  # Cache key type: [defining_class, method_name]
+  type cache_key = [Module, Symbol]
+
   include InstanceMethods
 
   # Default freezer that freezes objects
@@ -53,37 +56,37 @@ module Memoizable
 
   # Storage for memoized methods
   class Memory
-    @memory: Hash[Symbol, untyped]
+    @memory: Hash[cache_key, untyped]
     @monitor: ::Monitor
 
     # Initialize the memory storage
-    def initialize: (Hash[Symbol, untyped] memory) -> void
+    def initialize: (Hash[cache_key, untyped] memory) -> void
 
     # Get the value from memory
-    def []: (Symbol name) -> untyped
+    def []: (cache_key name) -> untyped
 
     # Store the value in memory
-    def store: (Symbol name, untyped value) -> untyped
+    def store: (cache_key name, untyped value) -> untyped
 
     # Fetch the value from memory, or store it if it does not exist
-    def fetch: (Symbol name, ?untyped default) ?{ () -> untyped } -> untyped
+    def fetch: (cache_key name, ?untyped default) ?{ () -> untyped } -> untyped
 
     # Remove a specific value from memory
-    def delete: (Symbol name) -> untyped
+    def delete: (cache_key name) -> untyped
 
     # Remove all values from memory
     def clear: () -> self
 
     # A hook that allows Marshal to dump the object
-    def marshal_dump: () -> Hash[Symbol, untyped]
+    def marshal_dump: () -> Hash[cache_key, untyped]
 
     # A hook that allows Marshal to load the object
-    def marshal_load: (Hash[Symbol, untyped] hash) -> void
+    def marshal_load: (Hash[cache_key, untyped] hash) -> void
 
     private
 
     # Compute the default value when a key is not found
-    def fetch_default: (Symbol name, bool? no_default, untyped default) ?{ () -> untyped } -> untyped
+    def fetch_default: (cache_key name, bool? no_default, untyped default) ?{ () -> untyped } -> untyped
   end
 
   # Build the memoized method
