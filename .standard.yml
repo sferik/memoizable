@@ -1,0 +1,4 @@
+plugins:
+  - standard-performance
+
+ruby_version: 3.1
