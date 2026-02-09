@@ -1,0 +1,135 @@
+# Type definitions for Memoizable
+
+module Memoizable
+  VERSION: String
+
+  include InstanceMethods
+
+  # Default freezer that freezes objects
+  Freezer: untyped
+
+  # Hook called when module is included
+  def self.included: (Module descendant) -> void
+
+  # Methods mixed in to memoizable instances
+  module InstanceMethods
+    @memoized_method_cache: Memory?
+
+    # Freeze the object
+    def freeze: () -> self
+
+    # Sets memoized values for methods
+    def memoize: (Hash[Symbol, untyped] data) -> self
+
+    private
+
+    # The memoized method results
+    def memoized_method_cache: () -> Memory
+  end
+
+  # Methods mixed in to memoizable singleton classes
+  module ModuleMethods : Module
+    include Memoizable
+
+    @memoized_methods: Hash[Symbol, MethodBuilder]?
+
+    # Return default deep freezer
+    def freezer: () -> untyped
+
+    # Memoize a list of methods
+    def memoize: (*Symbol methods) -> self
+
+    # Return unmemoized instance method
+    def unmemoized_instance_method: (Symbol name) -> UnboundMethod
+
+    private
+
+    # Memoize the named method
+    def memoize_method: (Symbol method_name) -> void
+
+    # Return method builder registry
+    def memoized_methods: () -> Hash[Symbol, MethodBuilder]
+  end
+
+  # Storage for memoized methods
+  class Memory
+    @memory: Hash[Symbol, untyped]
+    @monitor: ::Monitor
+
+    # Initialize the memory storage
+    def initialize: (Hash[Symbol, untyped] memory) -> void
+
+    # Get the value from memory
+    def []: (Symbol name) -> untyped
+
+    # Store the value in memory
+    def store: (Symbol name, untyped value) -> untyped
+
+    # Fetch the value from memory, or store it if it does not exist
+    def fetch: (Symbol name, ?untyped default) ?{ () -> untyped } -> untyped
+
+    # Remove a specific value from memory
+    def delete: (Symbol name) -> untyped
+
+    # Remove all values from memory
+    def clear: () -> self
+
+    # A hook that allows Marshal to dump the object
+    def marshal_dump: () -> Hash[Symbol, untyped]
+
+    # A hook that allows Marshal to load the object
+    def marshal_load: (Hash[Symbol, untyped] hash) -> void
+
+    private
+
+    # Compute the default value when a key is not found
+    def fetch_default: (Symbol name, bool? no_default, untyped default) ?{ () -> untyped } -> untyped
+  end
+
+  # Build the memoized method
+  class MethodBuilder
+    @descendant: Module
+    @method_name: Symbol
+    @freezer: untyped
+    @original_visibility: Symbol
+    @original_method: UnboundMethod
+
+    # Raised when the method arity is invalid
+    class InvalidArityError < ArgumentError
+      # Initialize an invalid arity exception
+      def initialize: (Module descendant, Symbol method, Integer arity) -> void
+    end
+
+    # Raised when a block is passed to a memoized method
+    class BlockNotAllowedError < ArgumentError
+      # Initialize a block not allowed exception
+      def initialize: (Module descendant, Symbol method) -> void
+    end
+
+    # The original method before memoization
+    attr_reader original_method: UnboundMethod
+
+    # Initialize an object to build a memoized method
+    def initialize: (Module descendant, Symbol method_name, untyped freezer) -> void
+
+    # Build a new memoized method
+    def call: () -> self
+
+    private
+
+    # Assert the method arity is zero
+    def assert_arity: (Integer arity) -> void
+
+    # Remove the original method
+    def remove_original_method: () -> void
+
+    # Create a new memoized method
+    def create_memoized_method: () -> untyped
+
+    # Set the memoized method visibility to match the original method
+    def set_method_visibility: () -> untyped
+
+    # Get the visibility of the original method
+    def visibility: () -> Symbol
+  end
+end

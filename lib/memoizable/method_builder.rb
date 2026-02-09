@@ -110,9 +110,9 @@ module Memoizable
       method = @original_method
       freezer = @freezer
       @descendant.define_method(name) do |&block|
-        raise BlockNotAllowedError.new(self.class, name) if block
+        raise BlockNotAllowedError.new(self.class, name) if block # steep:ignore NoMethod
 
-        memoized_method_cache.fetch(name) do
+        memoized_method_cache.fetch(name) do # steep:ignore NoMethod
           freezer.call(method.bind_call(self))
         end
       end
