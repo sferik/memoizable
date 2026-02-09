@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-02-09
+
 ### Added
 
 - `Memory#delete` method to remove a specific memoized value from cache
@@ -88,7 +90,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ModuleMethods#unmemoized_instance_method` to access original method
 - Thread-safe cache using `ThreadSafe::Cache`
 
-[Unreleased]: https://github.com/dkubb/memoizable/compare/v0.4.2...HEAD
+[Unreleased]: https://github.com/dkubb/memoizable/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/dkubb/memoizable/compare/v0.4.2...v0.5.0
 [0.4.2]: https://github.com/dkubb/memoizable/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/dkubb/memoizable/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/dkubb/memoizable/compare/v0.3.1...v0.4.0
