@@ -1,0 +1,13 @@
+name: Steep
+on: [push, pull_request]
+jobs:
+  steep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+          bundler-cache: true
+      - name: Run steep type checker
+        run: bundle exec rake steep
