@@ -16,6 +16,10 @@
 
 Memoize method return values
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for details.
+
 ## Contributing
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for details.
