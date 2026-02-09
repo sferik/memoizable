@@ -1,0 +1,39 @@
+plugins:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  TargetRubyVersion: 3.1
+
+Layout/LineLength:
+  Max: 80
+
+Metrics/MethodLength:
+  Max: 10
+
+Style/AndOr:
+  EnforcedStyle: conditionals
+
+Style/CollectionMethods:
+  Enabled: true
+  PreferredMethods:
+    collect: map
+    find: detect
+    find_all: select
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: single_quotes
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: consistent_comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: consistent_comma
