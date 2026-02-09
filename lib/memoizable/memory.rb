@@ -74,11 +74,11 @@ module Memoizable
     # @return [Object]
     #
     # @api public
-    def fetch(name, default = (no_default = true), &block)
+    def fetch(name, default = (no_default = true), &)
       @memory.fetch(name) do       # check for the key
         @monitor.synchronize do    # acquire a lock if the key is not found
           @memory.fetch(name) do   # recheck under lock
-            @memory[name] = fetch_default(name, no_default, default, &block)
+            @memory[name] = fetch_default(name, no_default, default, &)
           end
         end
       end
