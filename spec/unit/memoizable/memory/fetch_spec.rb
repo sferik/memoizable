@@ -55,6 +55,36 @@ describe Memoizable::Memory, "#fetch" do
         expect(object[:other]).to be(other)
       end
     end
+
+    context "with a default argument instead of a block" do
+      it "returns the default argument when the key is not found" do
+        expect(object.fetch(name, :default_value)).to be(:default_value)
+      end
+
+      it "memoizes the default argument" do
+        object.fetch(name, :default_value)
+        expect(object[name]).to be(:default_value)
+      end
+
+      it "returns the stored value when the key is found" do
+        object.store(name, value)
+        expect(object.fetch(name, :default_value)).to be(value)
+      end
+    end
+
+    context "with no default argument or block" do
+      it "raises KeyError when the key is not found" do
+        expect { object.fetch(name) }.to raise_error(KeyError, "key not found: :test")
+      end
+    end
+
+    context "with too many arguments" do
+      it "raises ArgumentError" do
+        expect { object.fetch(name, :one, :two) }.to raise_error(
+          ArgumentError, "wrong number of arguments (given 3, expected 1..2)"
+        )
+      end
+    end
   end
 
   context "when the events are mocked" do

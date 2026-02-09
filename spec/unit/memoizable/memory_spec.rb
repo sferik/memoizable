@@ -12,7 +12,7 @@ describe Memoizable::Memory do
   # This test will raise if mutant removes the @monitor assignment
   # in the constructor
   it "depends on the monitor" do
-    expect(object.fetch(:test) { :test }).to be(:test)
+    expect(object.fetch(:test, :test)).to be(:test)
   end
 
   context "when serialized" do

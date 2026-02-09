@@ -62,8 +62,11 @@ module Memoizable
     #   memory.fetch(:foo) { 2 }  # => 1
     #   memory.fetch(:bar) { 2 }  # => 2
     #   memory[:bar]              # => 2
+    #   memory.fetch(:baz, 3)     # => 3
     #
     # @param [Symbol] name
+    # @param [Object] default
+    #   optional default value to return if the key is not found
     #
     # @yieldreturn [Object]
     #   the value to memoize
@@ -71,11 +74,13 @@ module Memoizable
     # @return [Object]
     #
     # @api public
-    def fetch(name)
+    def fetch(name, *default)
+      raise ArgumentError, "wrong number of arguments (given #{default.size + 1}, expected 1..2)" if default.size > 1
+
       @memory.fetch(name) do       # check for the key
         @monitor.synchronize do    # acquire a lock if the key is not found
           @memory.fetch(name) do   # recheck under lock
-            @memory[name] = yield  # set the value
+            @memory[name] = block_given? ? yield : default.fetch(0) { raise KeyError, "key not found: #{name.inspect}" }
           end
         end
       end
