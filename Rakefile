@@ -1,10 +1,10 @@
-require 'bundler'
-require 'rspec/core/rake_task'
-require 'rubocop/rake_task'
-require 'standard/rake'
-require 'yard'
-require 'yardstick/rake/measurement'
-require 'yardstick/rake/verify'
+require "bundler"
+require "rspec/core/rake_task"
+require "rubocop/rake_task"
+require "standard/rake"
+require "yard"
+require "yardstick/rake/measurement"
+require "yardstick/rake/verify"
 
 Bundler::GemHelper.install_tasks
 RSpec::Core::RakeTask.new(:spec)
@@ -18,6 +18,6 @@ Yardstick::Rake::Verify.new(:verify_measurements) do |verify|
   verify.threshold = 100
 end
 
-task :lint    => [:rubocop, :standard]
-task :test    => :spec
-task :default => :spec
+task lint: [:rubocop, :standard]
+task test: :spec
+task default: :spec

@@ -1,5 +1,4 @@
 module Memoizable
-
   # Methods mixed in to memoizable singleton classes
   module ModuleMethods
     include Memoizable
@@ -56,7 +55,7 @@ module Memoizable
       memoized_methods[name].original_method
     end
 
-  private
+    private
 
     # Memoize the named method
     #
@@ -83,6 +82,5 @@ module Memoizable
     def memoized_methods
       @_memoized_methods ||= {}
     end
-
   end # ModuleMethods
 end # Memoizable

@@ -1,10 +1,10 @@
-require 'monitor'
+require "monitor"
 
-require 'memoizable/instance_methods'
-require 'memoizable/method_builder'
-require 'memoizable/module_methods'
-require 'memoizable/memory'
-require 'memoizable/version'
+require "memoizable/instance_methods"
+require "memoizable/method_builder"
+require "memoizable/module_methods"
+require "memoizable/memory"
+require "memoizable/version"
 
 # Allow methods to be memoized
 module Memoizable
@@ -26,5 +26,4 @@ module Memoizable
     descendant.extend(ModuleMethods)
   end
   private_class_method :included
-
 end # Memoizable

@@ -1,6 +1,4 @@
 module Memoizable
-
   # Gem version
-  VERSION = '0.4.2'.freeze
-
+  VERSION = "0.4.2".freeze
 end # Memoizable

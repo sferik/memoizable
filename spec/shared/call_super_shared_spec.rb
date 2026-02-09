@@ -1,4 +1,4 @@
-shared_examples 'it calls super' do |method|
+shared_examples "it calls super" do |method|
   around do |example|
     # Restore original method after each example
     original = "original_#{method}"

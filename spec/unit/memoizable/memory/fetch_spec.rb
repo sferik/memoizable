@@ -1,62 +1,62 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe Memoizable::Memory, '#fetch' do
+describe Memoizable::Memory, "#fetch" do
   subject { object.fetch(name) { default } }
 
-  let(:object)  { described_class.new(cache) }
-  let(:cache)   { {}                         }
-  let(:name)    { :test                      }
-  let(:default) { instance_double('Default') }
-  let(:value)   { instance_double('Value')   }
+  let(:object) { described_class.new(cache) }
+  let(:cache) { {} }
+  let(:name) { :test }
+  let(:default) { instance_double("Default") }
+  let(:value) { instance_double("Value") }
 
-  context 'when the events are not mocked' do
-    let(:other) { instance_double('Other') }
+  context "when the events are not mocked" do
+    let(:other) { instance_double("Other") }
 
     before do
       # Set other keys in memory
       object.store(:other, other)
-      object.store(nil,    nil)
+      object.store(nil, nil)
     end
 
-    context 'when the memory is set' do
+    context "when the memory is set" do
       before do
         object.store(name, value)
       end
 
-      it 'returns the expected value' do
+      it "returns the expected value" do
         expect(subject).to be(value)
       end
 
-      it 'memoizes the value' do
+      it "memoizes the value" do
         subject
         expect(object[name]).to be(value)
       end
 
-      it 'does not overwrite the other key' do
+      it "does not overwrite the other key" do
         subject
         expect(object[:other]).to be(other)
       end
     end
 
-    context 'when the memory is not set' do
-      it 'returns the default value' do
+    context "when the memory is not set" do
+      it "returns the default value" do
         expect(subject).to be(default)
       end
 
-      it 'memoizes the default value' do
+      it "memoizes the default value" do
         subject
         expect(object[name]).to be(default)
       end
 
-      it 'does not overwrite the other key' do
+      it "does not overwrite the other key" do
         subject
         expect(object[:other]).to be(other)
       end
     end
   end
 
-  context 'when the events are mocked' do
-    include_context 'mocked events'
+  context "when the events are mocked" do
+    include_context "mocked events"
 
     let(:cache) do
       instance_double(Hash).tap do |cache|
@@ -74,8 +74,8 @@ describe Memoizable::Memory, '#fetch' do
       allow(Monitor).to receive(:new).and_return(monitor)
     end
 
-    context 'when the memory is set on first #fetch' do
-      include_examples 'executes all events'
+    context "when the memory is set on first #fetch" do
+      include_examples "executes all events"
 
       let(:events) do
         Enumerator.new do |events|
@@ -86,18 +86,18 @@ describe Memoizable::Memory, '#fetch' do
         end
       end
 
-      it 'returns the expected value' do
+      it "returns the expected value" do
         expect(subject).to be(value)
       end
 
-      it 'executes all events' do
+      it "executes all events" do
         subject
         expect { events.peek }.to raise_error(StopIteration)
       end
     end
 
-    context 'when the memory is set on second #fetch' do
-      include_examples 'executes all events'
+    context "when the memory is set on second #fetch" do
+      include_examples "executes all events"
 
       let(:events) do
         Enumerator.new do |events|
@@ -118,13 +118,13 @@ describe Memoizable::Memory, '#fetch' do
         end
       end
 
-      it 'returns the expected value' do
+      it "returns the expected value" do
         expect(subject).to be(value)
       end
     end
 
-    context 'when the memory is not set on second #fetch' do
-      include_examples 'executes all events'
+    context "when the memory is not set on second #fetch" do
+      include_examples "executes all events"
 
       let(:events) do
         Enumerator.new do |events|
@@ -150,7 +150,7 @@ describe Memoizable::Memory, '#fetch' do
         end
       end
 
-      it 'returns the default value' do
+      it "returns the default value" do
         expect(subject).to be(default)
       end
     end

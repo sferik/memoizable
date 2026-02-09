@@ -1,8 +1,6 @@
 module Memoizable
-
   # Methods mixed in to memoizable instances
   module InstanceMethods
-
     # Freeze the object
     #
     # @example
@@ -13,7 +11,7 @@ module Memoizable
     # @api public
     def freeze
       memoized_method_cache  # initialize method cache
-      super()
+      super
     end
 
     # Sets a memoized value for a method
@@ -32,7 +30,7 @@ module Memoizable
       self
     end
 
-  private
+    private
 
     # The memoized method results
     #
@@ -42,6 +40,5 @@ module Memoizable
     def memoized_method_cache
       @_memoized_method_cache ||= Memory.new({})
     end
-
   end # InstanceMethods
 end # Memoizable

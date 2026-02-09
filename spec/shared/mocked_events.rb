@@ -1,4 +1,4 @@
-shared_context 'mocked events' do
+shared_context "mocked events" do
   def register_events(object, method_names)
     method_names.each do |method_name|
       allow(object).to receive(method_name) do |*args, &block|
@@ -15,8 +15,8 @@ shared_context 'mocked events' do
   end
 end
 
-shared_examples 'executes all events' do
-  it 'executes all events' do
+shared_examples "executes all events" do
+  it "executes all events" do
     begin
       subject
     rescue
