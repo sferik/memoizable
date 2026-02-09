@@ -70,19 +70,15 @@ describe Memoizable::Memory, "#fetch" do
         object.store(name, value)
         expect(object.fetch(name, :default_value)).to be(value)
       end
+
+      it "allows nil as a default value" do
+        expect(object.fetch(name, nil)).to be_nil
+      end
     end
 
     context "with no default argument or block" do
       it "raises KeyError when the key is not found" do
         expect { object.fetch(name) }.to raise_error(KeyError, "key not found: :test")
-      end
-    end
-
-    context "with too many arguments" do
-      it "raises ArgumentError" do
-        expect { object.fetch(name, :one, :two) }.to raise_error(
-          ArgumentError, "wrong number of arguments (given 3, expected 1..2)"
-        )
       end
     end
   end

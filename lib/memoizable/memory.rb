@@ -64,8 +64,8 @@ module Memoizable
     #   memory[:bar]              # => 2
     #   memory.fetch(:baz, 3)     # => 3
     #
-    # @param [Symbol] name
-    # @param [Object] default
+    # @param name [Symbol]
+    # @param default [Object]
     #   optional default value to return if the key is not found
     #
     # @yieldreturn [Object]
@@ -74,13 +74,11 @@ module Memoizable
     # @return [Object]
     #
     # @api public
-    def fetch(name, *default)
-      raise ArgumentError, "wrong number of arguments (given #{default.size + 1}, expected 1..2)" if default.size > 1
-
+    def fetch(name, default = (no_default = true), &block)
       @memory.fetch(name) do       # check for the key
         @monitor.synchronize do    # acquire a lock if the key is not found
           @memory.fetch(name) do   # recheck under lock
-            @memory[name] = block_given? ? yield : default.fetch(0) { raise KeyError, "key not found: #{name.inspect}" }
+            @memory[name] = fetch_default(name, no_default, default, &block)
           end
         end
       end
@@ -149,6 +147,29 @@ module Memoizable
     # @api public
     def marshal_load(hash)
       initialize(hash)
+    end
+
+    private
+
+    # Compute the default value when a key is not found
+    #
+    # @param name [Symbol]
+    # @param no_default [Boolean]
+    # @param default [Object]
+    #
+    # @yieldreturn [Object]
+    #
+    # @return [Object]
+    #
+    # @raise [KeyError] if no default value or block is provided
+    #
+    # @api private
+    def fetch_default(name, no_default, default)
+      return yield if block_given?
+
+      raise KeyError, "key not found: #{name.inspect}" if no_default
+
+      default
     end
   end
 end
