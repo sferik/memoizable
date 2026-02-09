@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 describe Memoizable::Memory, "#[]" do
-  subject { object[name] }
+  subject(:fetch_value) { object[name] }
 
   let(:object) { described_class.new({}) }
   let(:name) { :test }
@@ -14,13 +16,13 @@ describe Memoizable::Memory, "#[]" do
     end
 
     it "returns the expected value" do
-      expect(subject).to be(value)
+      expect(fetch_value).to be(value)
     end
   end
 
   context "when the memory is not set" do
     it "raises an exception" do
-      expect { subject }.to raise_error(NameError, "No method test is memoized")
+      expect { fetch_value }.to raise_error(NameError, "No method test is memoized")
     end
   end
 end

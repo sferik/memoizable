@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require "spec_helper"
-require File.expand_path("../../fixtures/classes", __FILE__)
+require File.expand_path("../fixtures/classes", __dir__)
 
 describe Memoizable::InstanceMethods, "#memoize" do
-  subject { object.memoize(method => value) }
+  subject(:memoize_value) { object.memoize(method => value) }
 
   let(:described_class) { Class.new(Fixture::Object) }
   let(:object) { described_class.new }
@@ -16,11 +18,11 @@ describe Memoizable::InstanceMethods, "#memoize" do
     let(:value) { "" }
 
     it "sets the memoized value for the method to the value" do
-      subject
+      memoize_value
       expect(object.send(method)).to be(value)
     end
 
-    it_should_behave_like "a command method"
+    it_behaves_like "a command method"
   end
 
   context "when the method is already memoized" do
@@ -32,7 +34,7 @@ describe Memoizable::InstanceMethods, "#memoize" do
     end
 
     it "raises an exception" do
-      expect { subject }.to raise_error(ArgumentError)
+      expect { memoize_value }.to raise_error(ArgumentError)
     end
   end
 end

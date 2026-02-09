@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 describe Memoizable::Memory, "#store" do
-  subject { object.store(name, value) }
+  subject(:store_value) { object.store(name, value) }
 
   let(:object) { described_class.new(cache) }
   let(:cache) { {} }
@@ -15,24 +17,26 @@ describe Memoizable::Memory, "#store" do
       end
 
       it "raises an exception" do
-        expect { subject }.to raise_error(ArgumentError, "The method test is already memoized")
+        expect do
+          store_value
+        end.to raise_error(ArgumentError, "The method test is already memoized")
       end
     end
 
     context "when the memory is not set" do
       it "set the value" do
-        subject
+        store_value
         expect(object[name]).to be(value)
       end
 
       it "returns the value" do
-        expect(subject).to be(value)
+        expect(store_value).to be(value)
       end
     end
   end
 
   context "when the events are mocked" do
-    include_context "mocked events"
+    include_context "with mocked events"
 
     let(:cache) do
       instance_double(Hash).tap do |cache|
@@ -51,8 +55,6 @@ describe Memoizable::Memory, "#store" do
     end
 
     context "when the memory is set" do
-      include_examples "executes all events"
-
       let(:events) do
         Enumerator.new do |events|
           # Call to monitor#synchronize yields
@@ -67,14 +69,16 @@ describe Memoizable::Memory, "#store" do
         end
       end
 
+      it_behaves_like "executes all events"
+
       it "raises an exception" do
-        expect { subject }.to raise_error(ArgumentError, "The method test is already memoized")
+        expect do
+          store_value
+        end.to raise_error(ArgumentError, "The method test is already memoized")
       end
     end
 
     context "when the memory is not set" do
-      include_examples "executes all events"
-
       let(:events) do
         Enumerator.new do |events|
           # Call to monitor#synchronize yields
@@ -95,13 +99,15 @@ describe Memoizable::Memory, "#store" do
         end
       end
 
+      it_behaves_like "executes all events"
+
       it "set the value" do
-        subject
+        store_value
         expect(object[name]).to be(value)
       end
 
       it "returns the value" do
-        expect(subject).to be(value)
+        expect(store_value).to be(value)
       end
     end
   end

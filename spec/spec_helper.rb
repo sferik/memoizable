@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 begin
   require "simplecov"
 
@@ -19,7 +21,8 @@ require "memoizable"
 require "rspec"
 
 # Require spec support files and shared behavior
-Pathname.glob(Pathname(__dir__).join("{shared,support}", "**", "*.rb")).sort.each do |file|
+Pathname.glob(Pathname(__dir__).join("{shared,support}", "**",
+  "*.rb")).sort.each do |file|
   require file.sub_ext("").to_s
 end
 

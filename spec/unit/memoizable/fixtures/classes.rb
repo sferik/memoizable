@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Fixture
   class Object
     include Memoizable
@@ -34,5 +36,5 @@ module Fixture
     def private_method
       caller
     end
-  end # class Object
-end # module Fixture
+  end
+end
