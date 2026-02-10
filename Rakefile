@@ -35,4 +35,20 @@ task :mutant do
   end
 end
 
+STEEP_AVAILABLE = begin
+  require "steep"
+  true
+rescue LoadError
+  false
+end
+
+desc "Run Steep type checker"
+task :steep do
+  if STEEP_AVAILABLE
+    sh "bundle exec steep check"
+  else
+    warn "Steep is disabled"
+  end
+end
+
 task default: :spec
