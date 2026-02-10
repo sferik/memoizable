@@ -103,4 +103,4 @@ dropped.
 
 ## Copyright
 
-Copyright &copy; 2013 Dan Kubb, Erik Michaels-Ober. See LICENSE for details.
+Copyright &copy; 2013-2026 Dan Kubb, Erik Berlin. See LICENSE for details.
