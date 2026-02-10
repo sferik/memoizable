@@ -1,31 +1,33 @@
-require 'spec_helper'
-require File.expand_path('../../../fixtures/classes', __FILE__)
+# frozen_string_literal: true
 
-describe Memoizable::MethodBuilder, '.new' do
-  subject { described_class.new(descendant, method_name, freezer) }
+require "spec_helper"
+require File.expand_path("../../fixtures/classes", __dir__)
 
-  let(:descendant) { Fixture::Object                   }
-  let(:freezer)    { lambda { |object| object.freeze } }
+describe Memoizable::MethodBuilder, ".new" do
+  subject(:method_builder) { described_class.new(descendant, method_name, freezer) }
 
-  context 'with a zero arity method' do
+  let(:descendant) { Fixture::Object }
+  let(:freezer) { lambda(&:freeze) }
+
+  context "with a zero arity method" do
     let(:method_name) { :zero_arity }
 
-    it { should be_instance_of(described_class) }
+    it { is_expected.to be_instance_of(described_class) }
 
-    it 'sets the original method' do
+    it "sets the original method" do
       # original method is not memoized
-      method = subject.original_method.bind(descendant.new)
-      expect(method.call).to_not be(method.call)
+      method = method_builder.original_method.bind(descendant.new)
+      expect(method.call).not_to be(method.call)
     end
   end
 
-  context 'with a one arity method' do
+  context "with a one arity method" do
     let(:method_name) { :one_arity }
 
-    it 'raises an exception' do
-      expect { subject }.to raise_error(
+    it "raises an exception" do
+      expect { method_builder }.to raise_error(
         described_class::InvalidArityError,
-        'Cannot memoize Fixture::Object#one_arity, its arity is 1'
+        "Cannot memoize Fixture::Object#one_arity, its arity is 1"
       )
     end
   end

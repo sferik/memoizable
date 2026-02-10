@@ -1,25 +1,28 @@
-require 'spec_helper'
-require File.expand_path('../../fixtures/classes', __FILE__)
+# frozen_string_literal: true
 
-describe Memoizable::InstanceMethods, '#freeze' do
-  subject { object.freeze }
+require "spec_helper"
+require File.expand_path("../fixtures/classes", __dir__)
+
+describe Memoizable::InstanceMethods, "#freeze" do
+  subject(:freeze_object) { object.freeze }
 
   let(:described_class) { Class.new(Fixture::Object) }
+  let(:object) { described_class.allocate }
 
   before do
     described_class.memoize(:test)
   end
 
-  let(:object) { described_class.allocate }
+  it_behaves_like "a command method"
 
-  it_should_behave_like 'a command method'
-
-  it 'freezes the object' do
-    expect { subject }.to change(object, :frozen?).from(false).to(true)
+  it "freezes the object" do
+    expect { freeze_object }.to change(object, :frozen?).from(false).to(true)
   end
 
-  it 'allows methods not yet called to be memoized' do
-    subject
-    expect(object.test).to be(object.test)
+  it "allows methods not yet called to be memoized" do
+    freeze_object
+    first_call = object.test
+    second_call = object.test
+    expect(first_call).to be(second_call)
   end
 end

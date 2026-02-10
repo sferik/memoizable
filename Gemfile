@@ -1,12 +1,20 @@
-source 'https://rubygems.org'
+# frozen_string_literal: true
+
+source "https://rubygems.org"
 
 gemspec
 
 group :test do
-  gem 'mutant-rspec', '>= 0.14'
-  gem 'rake',         '>= 13.3.1'
-  gem 'rspec',        '>= 3.13.2'
-  gem 'simplecov',    '>= 0.22'
-  gem 'yard',         '>= 0.9.38'
-  gem 'yardstick',    '>= 0.9.9'
+  gem "mutant-rspec", ">= 0.14"
+  gem "rake", ">= 13.3.1"
+  gem "rspec", ">= 3.13.2"
+  gem "rubocop", ">= 1.74"
+  gem "rubocop-performance", ">= 1.24"
+  gem "rubocop-rake", ">= 0.7"
+  gem "rubocop-rspec", ">= 3.5"
+  gem "simplecov", ">= 0.22"
+  gem "standard", ">= 1.46"
+  gem "standard-performance", ">= 1.7"
+  gem "yard", ">= 0.9.38"
+  gem "yardstick", ">= 0.9.9"
 end

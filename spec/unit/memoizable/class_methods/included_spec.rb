@@ -1,15 +1,17 @@
-require 'spec_helper'
+# frozen_string_literal: true
 
-describe Memoizable, '.included' do
-  subject { object.class_eval { include Memoizable } }
+require "spec_helper"
 
-  let(:object)     { Class.new }
-  let(:superclass) { Module    }
+describe Memoizable, ".included" do
+  subject(:include_memoizable) { object.class_eval { include Memoizable } }
 
-  it_behaves_like 'it calls super', :included
+  let(:object) { Class.new }
+  let(:superclass) { Module }
 
-  it 'extends the descendant with module methods' do
-    subject
+  it_behaves_like "it calls super", :included
+
+  it "extends the descendant with module methods" do
+    include_memoizable
     extended_modules = class << object; included_modules end
     expect(extended_modules).to include(Memoizable::ModuleMethods)
   end

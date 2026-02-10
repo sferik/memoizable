@@ -1,11 +1,13 @@
-require 'spec_helper'
+# frozen_string_literal: true
 
-describe Memoizable::MethodBuilder, '#original_method' do
-  subject { object.original_method }
+require "spec_helper"
 
-  let(:object)      { described_class.new(descendant, method_name, freezer) }
-  let(:method_name) { :foo                                                  }
-  let(:freezer)     { lambda { |object| object.freeze }                     }
+describe Memoizable::MethodBuilder, "#original_method" do
+  subject(:original_method) { object.original_method }
+
+  let(:object) { described_class.new(descendant, method_name, freezer) }
+  let(:method_name) { :foo }
+  let(:freezer) { lambda(&:freeze) }
 
   let(:descendant) do
     Class.new do
@@ -19,11 +21,11 @@ describe Memoizable::MethodBuilder, '#original_method' do
     end
   end
 
-  it { should be_instance_of(UnboundMethod) }
+  it { is_expected.to be_instance_of(UnboundMethod) }
 
-  it 'returns the original method' do
+  it "returns the original method" do
     # original method is not memoized
-    method = subject.bind(descendant.new)
-    expect(method.call).to_not be(method.call)
+    method = original_method.bind(descendant.new)
+    expect(method.call).not_to be(method.call)
   end
 end

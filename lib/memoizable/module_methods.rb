@@ -1,5 +1,6 @@
-module Memoizable
+# frozen_string_literal: true
 
+module Memoizable
   # Methods mixed in to memoizable singleton classes
   module ModuleMethods
     include Memoizable
@@ -25,7 +26,7 @@ module Memoizable
     #
     # @api public
     def memoize(*methods)
-      methods.each(&method(:memoize_method))
+      methods.each { |method| memoize_method(method) }
       self
     end
 
@@ -56,7 +57,7 @@ module Memoizable
       memoized_methods[name].original_method
     end
 
-  private
+    private
 
     # Memoize the named method
     #
@@ -67,7 +68,11 @@ module Memoizable
     #
     # @api private
     def memoize_method(method_name)
-      fail ArgumentError, "The method #{method_name} is already memoized" if memoized_methods.key?(method_name)
+      if memoized_methods.key?(method_name)
+        raise ArgumentError,
+          "The method #{method_name} is already memoized"
+      end
+
       memoized_methods[method_name] = MethodBuilder.new(
         self,
         method_name,
@@ -81,8 +86,7 @@ module Memoizable
     #
     # @api private
     def memoized_methods
-      @_memoized_methods ||= {}
+      @memoized_methods ||= {}
     end
-
-  end # ModuleMethods
-end # Memoizable
+  end
+end

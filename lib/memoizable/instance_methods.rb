@@ -1,8 +1,8 @@
-module Memoizable
+# frozen_string_literal: true
 
+module Memoizable
   # Methods mixed in to memoizable instances
   module InstanceMethods
-
     # Freeze the object
     #
     # @example
@@ -12,8 +12,8 @@ module Memoizable
     #
     # @api public
     def freeze
-      memoized_method_cache  # initialize method cache
-      super()
+      memoized_method_cache # initialize method cache
+      super
     end
 
     # Sets a memoized value for a method
@@ -32,7 +32,7 @@ module Memoizable
       self
     end
 
-  private
+    private
 
     # The memoized method results
     #
@@ -40,8 +40,7 @@ module Memoizable
     #
     # @api private
     def memoized_method_cache
-      @_memoized_method_cache ||= Memory.new({})
+      @_memoized_method_cache ||= Memory.new({}) # rubocop:disable Naming/MemoizedInstanceVariableName
     end
-
-  end # InstanceMethods
-end # Memoizable
+  end
+end
