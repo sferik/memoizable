@@ -77,6 +77,15 @@ describe Memoizable::MethodBuilder, "#call" do
       expect(instance.send(method_name)).to eql(method_name.to_s)
       expect(instance.other_method).to eql("other_method")
     end
+
+    it "uses a composite cache key of [descendant, method_name]" do
+      build_method
+      instance.send(method_name)
+      cache = instance.instance_variable_get(:@_memoized_method_cache)
+      memory = cache.instance_variable_get(:@memory)
+
+      expect(memory.keys).to include([descendant, method_name])
+    end
   end
 
   context "with public method" do
