@@ -26,4 +26,13 @@ task lint: %i[rubocop standard]
 desc "Run RSpec"
 task test: :spec
 
+desc "Run Mutant"
+task :mutant do
+  if Process.respond_to?(:fork)
+    sh "bundle exec mutant run"
+  else
+    warn "Mutant is disabled (requires fork)"
+  end
+end
+
 task default: :spec

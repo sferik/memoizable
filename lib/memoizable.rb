@@ -10,7 +10,7 @@ require "memoizable/version"
 
 # Allow methods to be memoized
 module Memoizable
-  include InstanceMethods
+  include Memoizable::InstanceMethods
 
   # Default freezer
   Freezer = lambda(&:freeze).freeze
