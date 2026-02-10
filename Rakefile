@@ -1,14 +1,17 @@
 # frozen_string_literal: true
 
-require "bundler"
+require "bundler/gem_tasks"
+# Override release task to skip gem push (handled by GitHub Actions with attestations)
+Rake::Task["release"].clear
+desc "Build gem and create tag (gem push handled by CI)"
+task release: %w[build release:guard_clean release:source_control_push]
+
 require "rspec/core/rake_task"
 require "rubocop/rake_task"
 require "standard/rake"
 require "yard"
 require "yardstick/rake/measurement"
 require "yardstick/rake/verify"
-
-Bundler::GemHelper.install_tasks
 RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new(:rubocop)
 
@@ -51,4 +54,7 @@ task :steep do
   end
 end
 
-task default: :spec
+desc "Generate and verify documentation"
+task docs: %i[yard verify_measurements]
+
+task default: %i[test lint mutant docs steep]

@@ -1,13 +1,18 @@
 # Memoizable
 
 [![Gem Version](http://img.shields.io/gem/v/memoizable.svg)][gem]
-![CI](https://github.com/dkubb/memoizable/workflows/CI/badge.svg)
-[![Dependency Status](http://img.shields.io/gemnasium/dkubb/memoizable.svg)][gemnasium]
-[![Code Climate](http://img.shields.io/codeclimate/github/dkubb/memoizable.svg)][codeclimate]
+[![Test](https://github.com/dkubb/memoizable/actions/workflows/test.yml/badge.svg)][test]
+[![Lint](https://github.com/dkubb/memoizable/actions/workflows/lint.yml/badge.svg)][lint]
+[![Mutant](https://github.com/dkubb/memoizable/actions/workflows/mutant.yml/badge.svg)][mutant]
+[![Docs](https://github.com/dkubb/memoizable/actions/workflows/docs.yml/badge.svg)][docs]
+[![Steep](https://github.com/dkubb/memoizable/actions/workflows/steep.yml/badge.svg)][steep]
 
 [gem]: https://rubygems.org/gems/memoizable
-[gemnasium]: https://gemnasium.com/dkubb/memoizable
-[codeclimate]: https://codeclimate.com/github/dkubb/memoizable
+[test]: https://github.com/dkubb/memoizable/actions/workflows/test.yml
+[lint]: https://github.com/dkubb/memoizable/actions/workflows/lint.yml
+[mutant]: https://github.com/dkubb/memoizable/actions/workflows/mutant.yml
+[docs]: https://github.com/dkubb/memoizable/actions/workflows/docs.yml
+[steep]: https://github.com/dkubb/memoizable/actions/workflows/steep.yml
 
 Memoize method return values
 
@@ -73,33 +78,15 @@ result. Please keep this in mind when considering which methods to memoize.
 Supported Ruby Versions
 -----------------------
 
-This library aims to support and is tested against the following Ruby
-implementations:
+This library aims to support and is tested against the following Ruby versions:
 
-* Ruby 2.1
-* Ruby 2.2
-* Ruby 2.3
-* Ruby 2.4
-* Ruby 2.5
-* Ruby 2.6
-* Ruby 2.7
-* [JRuby][jruby]
-
-[jruby]: http://jruby.org/
+* Ruby 3.1
+* Ruby 3.2
+* Ruby 3.3
+* Ruby 3.4
+* Ruby 4.0
 
 If something doesn't work on one of these versions, it's a bug.
-
-This library may inadvertently work (or seem to work) on other Ruby versions or
-implementations, however support will only be provided for the implementations
-listed above.
-
-If you would like this library to support another Ruby version or
-implementation, you may volunteer to be a maintainer. Being a maintainer
-entails making sure all tests run and pass on that implementation. When
-something breaks on your implementation, you will be responsible for providing
-patches in a timely fashion. If critical issues for a particular implementation
-exist at the time of a major release, support for that Ruby version may be
-dropped.
 
 ## Copyright
 
