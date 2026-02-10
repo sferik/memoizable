@@ -1,2 +1,5 @@
+.yardoc/
 Gemfile.lock
 coverage/
+doc/
+measurements/

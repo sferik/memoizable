@@ -1,4 +1,5 @@
---quiet
-README.md
 lib/**/*.rb
-LICENSE
+-
+CONTRIBUTING.md
+LICENSE.md
+README.md
